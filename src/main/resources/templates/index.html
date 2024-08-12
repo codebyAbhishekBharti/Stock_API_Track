@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Information</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #e9ecef;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    h2 {
+      color: #212529;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .btn-custom {
+      background-color: #17a2b8;
+      color: #ffffff;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-custom:hover {
+      background-color: #138496;
+    }
+
+    #stockDetails .list-group-item {
+      background-color: #ffffff;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      padding: 20px;
+      transition: transform 0.2s;
+    }
+
+    #stockDetails .list-group-item:hover {
+      transform: scale(1.02);
+    }
+
+    .list-group-item strong {
+      color: #17a2b8;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-5">
+  <div class="row">
+    <!-- Forms Section -->
+    <div class="col-md-6">
+      <h2 class="text-center">Enter Stock Symbols</h2>
+      <!-- Form for single stock symbol -->
+      <div class="card">
+        <form id="singleStockForm">
+          <div class="form-group">
+            <label for="symbol">Single Stock Symbol:</label>
+            <input type="text" class="form-control" id="symbol" placeholder="e.g., AAPL" required>
+          </div>
+          <button type="submit" class="btn btn-custom btn-block">Get Stock Info</button>
+        </form>
+      </div>
+
+      <!-- Form for multiple stock symbols -->
+      <div class="card">
+        <form id="multipleStockForm">
+          <div class="form-group">
+            <label for="symbols">Multiple Stock Symbols (comma-separated):</label>
+            <input type="text" class="form-control" id="symbols" placeholder="e.g., AAPL,GOOGL,MSFT" required>
+          </div>
+          <button type="submit" class="btn btn-custom btn-block">Get Multiple Stock Info</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Stock Details Section -->
+    <div class="col-md-6">
+      <h2 class="text-center">Stock Details</h2>
+      <div id="stockData" class="mt-4">
+        <ul class="list-group" id="stockDetails"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+  // Handle single stock form submission
+  $('#singleStockForm').on('submit', function(e) {
+      e.preventDefault();
+      const symbol = $('#symbol').val();
+      fetch(`/stock/${symbol}`)
+          .then(response => response.json())
+          .then(data => displayStockInfo([data]));
+  });
+
+  // Handle multiple stocks form submission
+  $('#multipleStockForm').on('submit', function(e) {
+      e.preventDefault();
+      const symbols = $('#symbols').val();
+      fetch(`/stocks/${symbols}`)
+          .then(response => response.json())
+          .then(data => displayStockInfo(data));
+  });
+
+  // Display stock information
+  function displayStockInfo(stockList) {
+      const stockDetails = $('#stockDetails');
+      stockDetails.empty();
+
+      stockList.forEach(stock => {
+          if (stock.symbol) {
+              stockDetails.append(`
+                  <li class="list-group-item">
+                      <strong>Symbol:</strong> ${stock.symbol}<br>
+                      <strong>Open:</strong> $${stock.openingPrice}<br>
+                      <strong>Close:</strong> $${stock.closingPrice}<br>
+                      <strong>Change:</strong> $${stock.change}<br>
+                      <strong>Percent Change:</strong> ${stock.percentChange}%<br>
+                      <strong>Volume:</strong> ${stock.volume}<br>
+                      <strong>Last Updated:</strong> ${stock.latestTime}
+                  </li>
+              `);
+          } else {
+              stockDetails.append(`<li class="list-group-item">Invalid Symbol: ${stock}</li>`);
+          }
+      });
+  }
+</script>
+</body>
+</html>
