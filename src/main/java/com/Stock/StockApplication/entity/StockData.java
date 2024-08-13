@@ -77,17 +77,4 @@ public class StockData {
     public void setVolume(Integer volume) {
         this.volume = volume;
     }
-
-    @Override
-    public String toString() {
-        return "StockInfo{" +
-                "symbol='" + symbol + '\'' +
-                ",\n openPrice=" + openPrice +
-                ",\n closePrice=" + closePrice +
-                ".\n timeStamp='" + timeStamp + '\'' +
-                ",\n change=" + change +
-                ",\n percentChange=" + percentChange +
-                ",\n volume=" + volume +
-                '}';
-    }
 }

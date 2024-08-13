@@ -11,6 +11,17 @@
       font-family: 'Roboto', sans-serif;
     }
 
+    .main-heading {
+      color: #ffffff;
+      background-color: #17a2b8;
+      font-weight: bold;
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 40px;
+    }
+
     h2 {
       color: #212529;
       font-weight: bold;
@@ -55,6 +66,8 @@
 </head>
 <body>
 <div class="container mt-5">
+  <!-- Main Heading -->
+  <h1 class="main-heading">Real-Time Stock Information</h1>
   <div class="row">
     <!-- Forms Section -->
     <div class="col-md-6">
@@ -64,7 +77,7 @@
         <form id="singleStockForm">
           <div class="form-group">
             <label for="symbol">Single Stock Symbol:</label>
-            <input type="text" class="form-control" id="symbol" placeholder="e.g., AAPL" required>
+            <input type="text" class="form-control" id="symbol" placeholder="e.g., IBM" required>
           </div>
           <button type="submit" class="btn btn-custom btn-block">Get Stock Info</button>
         </form>
@@ -75,7 +88,7 @@
         <form id="multipleStockForm">
           <div class="form-group">
             <label for="symbols">Multiple Stock Symbols (comma-separated):</label>
-            <input type="text" class="form-control" id="symbols" placeholder="e.g., AAPL,GOOGL,MSFT" required>
+            <input type="text" class="form-control" id="symbols" placeholder="e.g., IBM,GOOGL,MSFT" required>
           </div>
           <button type="submit" class="btn btn-custom btn-block">Get Multiple Stock Info</button>
         </form>
