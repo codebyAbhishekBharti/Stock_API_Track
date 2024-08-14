@@ -11,10 +11,24 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Class responsible for retrieving stock data from an external API.
+ */
 public class StockDataRetriver {
+
+    /**
+     * Default constructor.
+     */
     public StockDataRetriver() {
     }
-    public StockData FetchStockInfo(String symbol){
+
+    /**
+     * Fetches stock information for a given symbol using the Alpha Vantage API.
+     *
+     * @param symbol the stock symbol to fetch information for
+     * @return a StockData object containing the stock information, or null if an error occurs
+     */
+    public StockData FetchStockInfo(String symbol) {
         String apiKey = "O20WGJA6FBJ0RTQM";
         String interval = "1min";
         try {
@@ -53,7 +67,8 @@ public class StockDataRetriver {
                 Integer volume = Integer.parseInt(data.get("5. volume").asText());
                 Double change = close - open;
                 Double percentChange = (change / open) * 100;
-                StockData stockData = new StockData(symbolMeta,open,close,lastRefreshed,change,percentChange,volume);
+
+                StockData stockData = new StockData(symbolMeta, open, close, lastRefreshed, change, percentChange, volume);
                 return stockData;
             } else {
                 return null;
